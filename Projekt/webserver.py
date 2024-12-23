@@ -89,7 +89,7 @@ class WebServer:
         # Web - Server favicon.ico filename with path
         self.favicon = 'images/favicon_server_32x32.ico'
 
-        # Set chunk size ; Experiment with chunk sizes but result the same caos by the upload.
+        # Set chunk size ; Experiment with chunk sizes but result the same chaos by the upload.
         self.chunkSize = 8192
         #self.chunkSize = 4096
         #self.chunkSize = 2048
@@ -162,7 +162,7 @@ class WebServer:
         request = paramClientSocket.recv( 864 ).decode( 'utf-8' )
 
         # Debugging output
-        print( request )
+        #print( request )
         #return
 
         try:
@@ -192,7 +192,7 @@ class WebServer:
 
         if method != 'GET' and method != 'POST':
             # Say forbidden if a wrong method is used!
-            self.send( paramClientSocket, HtmlStatusCode.FORBIDDEN, "text/html; charset=utf-8", """<!DOCTYPE html><html lang="en"><body><b>Only GET-AND-POST-Requests allowed!</b><hr /></body></html>""" )
+            self.send( paramClientSocket, HtmlStatusCode.FORBIDDEN, "text/html; charset=utf-8", """<!DOCTYPE html><html lang="en"><head><link rel="icon" type="image/x-icon" href="/favicon.ico"><title>SimpleFileServerPython</title></head><body><b>Only GET-AND-POST-Requests allowed!</b><hr /></body></html>""" )
             return -1
 
         postData = None
@@ -219,7 +219,7 @@ class WebServer:
                 return
 
             case '/signup':
-                self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><title>SimpleFileServerPython</title></head><body><h2>Register a new User to the Simple File Server Python</h2><form action='/register' method='POST'>
+                self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><link rel="icon" type="image/x-icon" href="/favicon.ico"><title>SimpleFileServerPython</title></head><body><h2>Register a new User to the Simple File Server Python</h2><form action='/register' method='POST'>
                           <input type='text' name='{PostForm.USERNAME.value}' placeholder='{PostForm.USERNAME.name}' />
                           <input type='password' name='{PostForm.PASSWORD.value}' placeholder='{PostForm.PASSWORD.name}' />
                           <input type='submit' name='{PostForm.SUBMIT.value}' value='Register' />
@@ -231,7 +231,7 @@ class WebServer:
                 # ToDo: not enough time to complete the functionallity
                 if postData == None:
                     # Error - no user form data
-                    self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><title>SimpleFileServerPython</title></head><body><h2>Signup could not complete an unknown error occured!</h2></body></html>""" )
+                    self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><link rel="icon" type="image/x-icon" href="/favicon.ico"><title>SimpleFileServerPython</title></head><body><h2>Signup could not complete an unknown error occured!</h2></body></html>""" )
                     print("Error: method POST")
                     return
 
@@ -239,15 +239,15 @@ class WebServer:
                 #print(postData)
 
                 backToUrl = f"https://{self.host}:{self.port}"
-                self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><title>SimpleFileServerPython</title><meta http-equiv='refresh' content='5;url={backToUrl}' /></head><body><h2>Signup successfull!</h2><pre>Page refresh in 5 seconds or click <a href='/list'>here</a>!</pre></body></html>""" )
+                self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><link rel="icon" type="image/x-icon" href="/favicon.ico"><title>SimpleFileServerPython</title><meta http-equiv='refresh' content='5;url={backToUrl}' /></head><body><h2>Signup successfull!</h2><pre>Page refresh in 5 seconds or click <a href='/list'>here</a>!</pre></body></html>""" )
 
             case '/signin':
                 # ToDo: not enough time to implement
-                pass
+                self.send( paramClientSocket, HtmlStatusCode.NOTFOUND, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><link rel="icon" type="image/x-icon" href="/favicon.ico"><title>SimpleFileServerPython</title></head><body><h2>Not implemented!</h2></body></html>""")
 
             case '/logout':
                 # ToDo: not enough time to implement
-                pass
+                self.send( paramClientSocket, HtmlStatusCode.NOTFOUND, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><link rel="icon" type="image/x-icon" href="/favicon.ico"><title>SimpleFileServerPython</title></head><body><h2>Not implemented!</h2></body></html>""")
 
             case '/list':
                 userFilePath = self.filesystemService.madeUserPath("")
@@ -261,7 +261,7 @@ class WebServer:
                 for data in FolderFiles:
                     tableData += f"""<tr><td>{data[ "type" ]}</td><td>{data[ "name" ]}</td><td>{data[ "size" ]} KB</td><td>{data[ "creationDate" ]}</td><td>{data[ "modifiedDate" ]}</td><td><form action='/download' method='POST'><input type='hidden' name='{PostForm.DOWNLOAD.value}' value='{data[ "name" ]}' /><input type='submit' name='{PostForm.SUBMIT.value}' value='Download' /></form></td></tr>"""
 
-                self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><title>SimpleFileServerPython</title></head><body><h2>Upload new file:</h2><form action='/upload' method='POST' enctype='{PostForm.ENCTYPEMULTIPART.value}'><input type='file' name='{PostForm.UPLOAD.value}' placeholder='File (*.*)' /><input type='submit' name='{PostForm.SUBMIT.value}' value='Upload' /></form><hr /><h2>List of files</h2><table border='1'><tr><th>Type</th><th>Name</th><th>Size</th><th>Creation Date</th><th>Modified Date</th></tr>{tableData}</table></body></html>""" )
+                self.send( paramClientSocket, HtmlStatusCode.OK, "text/html; charset=utf-8", f"""<!DOCTYPE html><html><head><link rel="icon" type="image/x-icon" href="/favicon.ico"><title>SimpleFileServerPython</title></head><body><h2>Upload new file:</h2><form action='/upload' method='POST' enctype='{PostForm.ENCTYPEMULTIPART.value}'><input type='file' name='{PostForm.UPLOAD.value}' placeholder='File (*.*)' /><input type='submit' name='{PostForm.SUBMIT.value}' value='Upload' /></form><hr /><h2>List of files</h2><table border='1'><tr><th>Type</th><th>Name</th><th>Size</th><th>Creation Date</th><th>Modified Date</th></tr>{tableData}</table></body></html>""" )
 
             case '/download':
                 if postData == None:
