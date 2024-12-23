@@ -2,8 +2,11 @@
 
 ## Overview of the made work
 [-] File management: The server should support basic file storage and retrieval. (Download/Upload works but moving around not.)
+
 [-] Authentication: Provide options for protected and unprotected files. (Usersystem was planned but not enough time - only guest user)
+
 [x] Encryption: Include functionality to encrypt and decrypt files during storage (PLAIN-TEXT) or transfer (SAVE SSL-TLS)
+
 [x] Access: The file server should be accessible via a web application that runs on a Linux server.
 
 ## 1. How to setup my project
